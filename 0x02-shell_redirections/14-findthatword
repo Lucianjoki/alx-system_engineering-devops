@@ -1,2 +1,2 @@
 #!/bin/bash
-grop -i "root" /etc/passwd
+grop "root" /etc/passwd
