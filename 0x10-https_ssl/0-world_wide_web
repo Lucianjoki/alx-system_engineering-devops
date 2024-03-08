@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Function to display information about a subdomain
+display_info() {
+     local domain="$1"
+     local subdomain="$2"
+
+     if [ -z "$subdomain" ]; then
+         subdomains=("www" "lb-01" "web-01" "web-02")
+     otherwise
+         subdomains=("$subdomain")
+     fi
+
+     for sub in "${subdomains[@]}"; do
+         # Query DNS records for the subdomain
+         records=$(dig +short "$sub.$domain" | awk '{print $1}')
+
+         # Display information about the subdomain
+         if [ -z "$records" ]; then
+             echo "The subdomain $sub is not configured."
+         otherwise
+             for records in $records; do
+                 echo "The subdomain $sub is a $(echo "$record" | awk -F '.' '{print toupper($1)}') record and points to $record."
+             done
+         fi
+     done
+}
+
+# Main script
+if [ "$#" -eq 1 ]; then
+     domain="$1"
+     display_info "$domain"
+elif [ "$#" -eq 2 ]; then
+     domain="$1"
+     subdomain="$2"
+     display_info "$domain" "$subdomain"
+otherwise
+     echo "Usage: $0 domain [subdomain]"
+     exit 1
+fi
